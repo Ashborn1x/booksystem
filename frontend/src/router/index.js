@@ -5,6 +5,7 @@ import Login from '../pages/Login.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import AddAuthor from '../views/AddAuthor.vue'
 import AddBook from '../views/AddBook.vue'
+import UpdateBook from '../views/UpdateBook.vue'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -12,6 +13,7 @@ const routes = [
   { path: '/dashboard', component: Dashboard },
   { path: '/add-author', component: AddAuthor },
   { path: '/add-book', component: AddBook },
+  { path: '/update-book/:id', component: UpdateBook, props: true },
 ]
 
 const router = createRouter({
