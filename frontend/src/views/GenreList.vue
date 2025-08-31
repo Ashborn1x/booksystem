@@ -2,11 +2,11 @@
   <div class="p-6">
     <h1 class="text-2xl font-bold mb-6">Books List</h1>
 
-    <router-link to="/add-author" class="block px-4 py-2 hover:bg-gray-200">
-      ➕ Add Author
+    <router-link to="/add-genre" class="block px-4 py-2 hover:bg-gray-200">
+      ➕ Add Genre
     </router-link><br>
-    <router-link to="/genre-list" class="block px-4 py-2 hover:bg-gray-200">
-      Genre List
+    <router-link to="/dashboard" class="block px-4 py-2 hover:bg-gray-200">
+      Dashboard
     </router-link>
     <div v-if="loading">Loading Genre...</div>
     <div v-else>
@@ -22,6 +22,10 @@
           <tr v-for="genre in genres" :key="genre.id">
             <td class="border border-gray-300 px-4 py-2">{{ genre.id }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ genre.genre }}</td>
+            <td class="border border-gray-300 px-4 py-2">
+              <router-link :to="`/view-genre/${genre.id}`">View</router-link>
+              <router-link :to="`/update-genre/${genre.id}`">Update</router-link>
+            </td>
           </tr>
         </tbody>
       </table>

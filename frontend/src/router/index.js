@@ -10,8 +10,10 @@ import UpdateAuthor from '../views/UpdateAuthor.vue'
 // Book
 import AddBook from '../views/AddBook.vue'
 import UpdateBook from '../views/UpdateBook.vue'
-// Genre - TBA
+// Genre
 import GenreList from '../views/GenreList.vue'
+import AddGenre from '../views/AddGenre.vue'
+import ViewGenre from '../views/ViewGenre.vue'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -23,6 +25,8 @@ const routes = [
   { path: '/add-book', component: AddBook },
   { path: '/update-book/:id', component: UpdateBook, props: true },
   { path: '/genre-list', component: GenreList },
+  { path: '/add-genre', component: AddGenre },
+  { path: '/view-genre/:id', component: ViewGenre, props: true },
 ]
 
 const router = createRouter({

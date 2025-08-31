@@ -22,6 +22,20 @@
         />
       </div>
 
+      <!-- Genre -->
+      <div class="mb-4">
+        <label class="block mb-1 font-medium">Genre</label>
+        <select
+          v-model="form.genre_id"
+          class="w-full border rounded px-3 py-2"
+        >
+          <option disabled value="">-- Select Genre --</option>
+          <option v-for="g in genres" :key="g.id" :value="g.id">
+            {{ g.genre }}
+          </option>
+        </select>
+      </div>
+
       <button
         type="submit"
         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -39,28 +53,48 @@ import { ref, onMounted } from "vue"
 import { useRoute } from "vue-router"
 
 const route = useRoute()
-const bookId = ref(route.params.id) // <-- get book id from URL
+const bookId = ref(route.params.id)
+
 const form = ref({
-  title: route.query.title || "",   // prefill from query
+  title: route.query.title || "",
+  genre_id: route.query.genre_id || "",
+  author_id: route.query.author_id || ""
 })
+const genres = ref([])
 const message = ref("")
 
-// Load existing book data for prefill
-onMounted(async () => {
+// Fetch book details
+async function loadBook() {
   try {
     const res = await fetch(`http://127.0.0.1:5000/books/${bookId.value}`)
     const data = await res.json()
-    // if no title from query, fall back to API response
+
+    // Only update if not already set from route query
     if (!form.value.title) {
       form.value.title = data.title
     }
-    form.value.author_id = data.author_id
-    form.value.genre_id = data.genre_id
+    if (!form.value.author_id) {
+      form.value.author_id = data.author_id
+    }
+    if (!form.value.genre_id) {
+      form.value.genre_id = data.genre_id
+    }
   } catch (err) {
     console.error("Failed to load book:", err)
   }
-})
+}
 
+// Fetch genres
+async function loadGenres() {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/genres")
+    genres.value = await res.json()
+  } catch (err) {
+    console.error("Failed to load genres:", err)
+  }
+}
+
+// Update book
 async function updateBook() {
   try {
     const response = await fetch(`http://127.0.0.1:5000/books/${bookId.value}`, {
@@ -79,4 +113,10 @@ async function updateBook() {
     message.value = "Server error."
   }
 }
+
+onMounted(async () => {
+  // Load genres first, then book details to ensure genres are available when genre_id is set
+  await loadGenres()
+  await loadBook()
+})
 </script>
