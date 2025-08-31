@@ -9,7 +9,7 @@
           v-model="bookId"
           type="number"
           class="w-full border rounded px-3 py-2"
-          required
+          readonly
         />
       </div>
 
@@ -18,24 +18,6 @@
         <input
           v-model="form.title"
           type="text"
-          class="w-full border rounded px-3 py-2"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block mb-1 font-medium">Author ID</label>
-        <input
-          v-model="form.author_id"
-          type="number"
-          class="w-full border rounded px-3 py-2"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block mb-1 font-medium">Genre ID</label>
-        <input
-          v-model="form.genre_id"
-          type="number"
           class="w-full border rounded px-3 py-2"
         />
       </div>
@@ -60,8 +42,6 @@ const route = useRoute()
 const bookId = ref(route.params.id) // <-- get book id from URL
 const form = ref({
   title: route.query.title || "",   // prefill from query
-  author_id: "",
-  genre_id: ""
 })
 const message = ref("")
 

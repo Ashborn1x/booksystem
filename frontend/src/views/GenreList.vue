@@ -8,24 +8,20 @@
     <router-link to="/genre-list" class="block px-4 py-2 hover:bg-gray-200">
       Genre List
     </router-link>
-    <div v-if="loading">Loading Authors...</div>
+    <div v-if="loading">Loading Genre...</div>
     <div v-else>
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr class="bg-gray-100">
             <th class="border border-gray-300 px-4 py-2">ID</th>
-            <th class="border border-gray-300 px-4 py-2">Author</th>
+            <th class="border border-gray-300 px-4 py-2">Genre</th>
             <th class="border border-gray-300 px-4 py-2">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="author in authors" :key="author.id">
-            <td class="border border-gray-300 px-4 py-2">{{ author.id }}</td>
-            <td class="border border-gray-300 px-4 py-2">{{ author.name }}</td>
-            <td class="border border-gray-300 px-4 py-2">
-              <router-link :to="`/view-author/${author.id}`">View</router-link>
-              <router-link :to="`/update-author/${author.id}`">Update</router-link>
-            </td>
+          <tr v-for="genre in genres" :key="genre.id">
+            <td class="border border-gray-300 px-4 py-2">{{ genre.id }}</td>
+            <td class="border border-gray-300 px-4 py-2">{{ genre.genre }}</td>
           </tr>
         </tbody>
       </table>
@@ -37,15 +33,15 @@
 import { ref, onMounted } from "vue"
 import axios from "axios"
 
-const authors = ref([])
+const genres = ref([])
 const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const res = await axios.get("http://127.0.0.1:5000/authors")
-    authors.value = res.data
+    const res = await axios.get("http://127.0.0.1:5000/genres")
+    genres.value = res.data
   } catch (error) {
-    console.error("Error fetching author:", error)
+    console.error("Error fetching genre:", error)
   } finally {
     loading.value = false
   }

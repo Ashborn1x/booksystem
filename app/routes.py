@@ -18,11 +18,11 @@ def get_authors():
 def get_author(id):
     author = Author.query.get_or_404(id)
     return jsonify({
-        "author":{
+        "author": {
             "id": author.id,
             "name": author.name,
-            "books": [b.title for b in author.books]
-            }
+            "books": [{"id": b.id, "title": b.title} for b in author.books]
+        }
     }), 200
 
 @main.route('/authors', methods=['POST'])
