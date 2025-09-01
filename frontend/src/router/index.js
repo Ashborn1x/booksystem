@@ -14,6 +14,7 @@ import UpdateBook from '../views/UpdateBook.vue'
 import GenreList from '../views/GenreList.vue'
 import AddGenre from '../views/AddGenre.vue'
 import ViewGenre from '../views/ViewGenre.vue'
+import UpdateGenre from '../views/UpdateGenre.vue'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -27,6 +28,7 @@ const routes = [
   { path: '/genre-list', component: GenreList },
   { path: '/add-genre', component: AddGenre },
   { path: '/view-genre/:id', component: ViewGenre, props: true },
+  { path: '/update-genre/:id', component: UpdateGenre, props: true },
 ]
 
 const router = createRouter({

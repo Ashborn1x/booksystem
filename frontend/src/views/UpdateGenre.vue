@@ -1,12 +1,12 @@
 <template>
   <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
-    <h2 class="text-xl font-bold mb-4">Update Author</h2>
+    <h2 class="text-xl font-bold mb-4">Update Genre</h2>
 
-    <form @submit.prevent="updateAuthor">
+    <form @submit.prevent="updateGenre">
       <div class="mb-4">
-        <label class="block mb-1 font-medium">Author ID</label>
+        <label class="block mb-1 font-medium">Genre ID</label>
         <input
-          v-model="authorId"
+          v-model="genreId"
           type="number"
           class="w-full border rounded px-3 py-2"
           readonly
@@ -14,11 +14,12 @@
       </div>
 
       <div class="mb-4">
-        <label class="block mb-1 font-medium">Name</label>
+        <label class="block mb-1 font-medium">Genre</label>
         <input
-          v-model="form.name"
+          v-model="form.genre"
           type="text"
           class="w-full border rounded px-3 py-2"
+          required
         />
       </div>
 
@@ -26,7 +27,7 @@
         type="submit"
         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
-        Update Author
+        Update Genre
       </button>
     </form>
 
@@ -40,38 +41,36 @@ import { useRoute } from "vue-router"
 import axios from "axios"
 
 const route = useRoute()
-const authorId = ref(route.params.id)
+const genreId = ref(route.params.id)
 
 const form = ref({
-  name: ""
+  genre: ""
 })
 const message = ref("")
 
-// Fetch current author details
-async function loadAuthor() {
+async function loadGenre() {
   try {
-    const res = await axios.get(`http://127.0.0.1:5000/authors/${authorId.value}`)
-    form.value.name = res.data.author.name // depends on your GET /authors/:id response
+    const res = await axios.get(`http://127.0.0.1:5000/genres/${genreId.value}`)
+    form.value.genre = res.data.genre.genre
   } catch (err) {
-    console.error("Failed to load author:", err)
+    console.error("Failed to load genre:", err)
   }
 }
 
-// Update author
-async function updateAuthor() {
+async function updateGenre() {
   try {
     const res = await axios.put(
-      `http://127.0.0.1:5000/authors/${authorId.value}`,
+      `http://127.0.0.1:5000/genres/${genreId.value}`,
       form.value
     )
     message.value = res.data.message
   } catch (err) {
-    console.error("Failed to update author:", err)
-    message.value = "Error updating author."
+    console.error("Failed to update genre:", err)
+    message.value = "Error updating genre."
   }
 }
 
 onMounted(() => {
-  loadAuthor()
+  loadGenre()
 })
 </script>

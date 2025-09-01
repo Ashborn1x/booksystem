@@ -23,6 +23,12 @@
             >
             Update
             </router-link>
+              <button
+                @click="deleteBook(book.id)"
+                class="ml-2 inline-block bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm"
+              >
+                Delete
+              </button>
         </li>
         </ul>
         <p v-else class="text-gray-500 italic">No books available</p>
@@ -62,4 +68,17 @@ onMounted(async () => {
     loading.value = false
   }
 })
+async function deleteBook(bookId) {
+  if (!confirm("Are you sure you want to delete this book?")) return;
+
+  try {
+    await axios.delete(`http://127.0.0.1:5000/books/${bookId}`)
+    // Remove from local list immediately so UI updates
+    author.value.books = author.value.books.filter(b => b.id !== bookId)
+  } catch (err) {
+    console.error("Failed to delete book:", err)
+    alert("Error deleting book.")
+  }
+}
+
 </script>

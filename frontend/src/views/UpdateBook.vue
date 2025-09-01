@@ -77,7 +77,7 @@ async function loadBook() {
       form.value.author_id = data.author_id
     }
     if (!form.value.genre_id) {
-      form.value.genre_id = data.genre_id
+      form.value.genre_id = data.book.genre_id
     }
   } catch (err) {
     console.error("Failed to load book:", err)

@@ -139,13 +139,15 @@ def get_books():
 def get_book(id):
     book = Book.query.get_or_404(id)
     return jsonify({
-        "book":{
+        "book": {
             "id": book.id,
             "title": book.title,
             "description": book.description,
-            "author":book.author.name if book.author else None,
-            "genre": book.genre.genre if book.genre else None
-            }
+            "author_id": book.author_id,  # return id for updates
+            "author": book.author.name if book.author else None,
+            "genre_id": book.genre.id if book.genre else None,  # <-- return genre id
+            "genre": book.genre.genre if book.genre else None   # <-- return genre name
+        }
     }), 200
 
 @main.route('/books', methods=['POST'])
