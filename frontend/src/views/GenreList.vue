@@ -25,12 +25,19 @@
             <td class="border border-gray-300 px-4 py-2">
               <router-link :to="`/view-genre/${genre.id}`">View</router-link>
               <router-link :to="`/update-genre/${genre.id}`">Update</router-link>
+              <button
+                @click="deleteGenre(genre.id)"
+                class="ml-2 inline-block bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm"
+              >
+                Delete
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <p v-if="message" class="mt-4 text-green-600">{{ message }}</p>
 </template>
 
 <script setup>
@@ -39,6 +46,7 @@ import axios from "axios"
 
 const genres = ref([])
 const loading = ref(true)
+const message = ref("")
 
 onMounted(async () => {
   try {
@@ -50,4 +58,16 @@ onMounted(async () => {
     loading.value = false
   }
 })
+async function deleteGenre(genreId) {
+  if (!confirm("Are you sure you want to delete this author?")) return;
+
+  try {
+    await axios.delete(`http://127.0.0.1:5000/genres/${genreId}`)
+    genres.value = genres.value.filter(g => g.id !== genreId)
+    message.value = "Genre deleted successfully!"
+  } catch (err) {
+    console.error("Failed to delete genre:", err)
+    alert("Error deleting Genre.")
+  }
+}
 </script>

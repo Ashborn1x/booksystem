@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <h1 class="text-2xl font-bold mb-6">Books List</h1>
+    <h1 class="text-2xl font-bold mb-6">Author List</h1>
 
     <router-link to="/add-author" class="block px-4 py-2 hover:bg-gray-200">
       ➕ Add Author
@@ -25,12 +25,20 @@
             <td class="border border-gray-300 px-4 py-2">
               <router-link :to="`/view-author/${author.id}`">View</router-link>
               <router-link :to="`/update-author/${author.id}`">Update</router-link>
+              <button
+                @click="deleteAuthor(author.id)"
+                class="ml-2 inline-block bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-sm"
+              >
+                Delete
+              </button>
+
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <p v-if="message" class="mt-4 text-green-600">{{ message }}</p>
 </template>
 
 <script setup>
@@ -39,6 +47,7 @@ import axios from "axios"
 
 const authors = ref([])
 const loading = ref(true)
+const message = ref("")
 
 onMounted(async () => {
   try {
@@ -50,4 +59,18 @@ onMounted(async () => {
     loading.value = false
   }
 })
+async function deleteAuthor(authorId) {
+  if (!confirm("Are you sure you want to delete this author?")) return;
+
+  try {
+    await axios.delete(`http://127.0.0.1:5000/authors/${authorId}`)
+    authors.value = authors.value.filter(a => a.id !== authorId)
+    message.value = "Author deleted successfully!"
+  } catch (err) {
+    console.error("Failed to delete author:", err)
+    alert("Error deleting Author.")
+  }
+}
+
+
 </script>
